@@ -9,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAppMovie.ApiRepository.cs;
 using WebAppMovie.Data;
+using AutoMapper;
 
 namespace WebAppMovie
 {
@@ -26,7 +28,9 @@ namespace WebAppMovie
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MovieDbContext>(opt => opt.UseSqlServer(_configuration.GetConnectionString("DefaultSqlConnection")));
+            services.AddScoped<IMovieAPIRepo, MovieAPIRepo>();
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,7 +42,7 @@ namespace WebAppMovie
             }
 
             app.UseRouting();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
