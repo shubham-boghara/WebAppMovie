@@ -4,15 +4,34 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
-
+  branches:
+    include:
+      - master
 pool:
-  vmImage: ubuntu-latest
-
+  vmImage: 'ubuntu-latest'
+ 
 variables:
- buildConfiguration: 'Release'
-
+  buildConfiguration: 'Release'
+ 
 steps:
-- task: UseDotNet@2
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: 'WebAppMovie.csproj'
+  displayName: 'Restore Nuget Packages'
+ 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'WebAppMovie.csproj'
+    arguments: '--no-restore'
+  displayName: 'Build projects'
+ 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'WebAppMovie.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-restore'
+    modifyOutputPath: false
+  displayName: 'Publish WebMovieApi'
