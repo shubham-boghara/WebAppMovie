@@ -9,6 +9,9 @@ namespace WebAppMovie.Profiles
         public WebAppMovieProfile()
         {
             CreateMap<Movie, MovieReadDto>();
+            CreateMap<MovieCreateDto, Movie>();
+            CreateMap<MovieUpdateDto, Movie>();
+            CreateMap<Movie, MovieUpdateDto>();
         }
     }
 }

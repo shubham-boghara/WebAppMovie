@@ -10,7 +10,7 @@ namespace WebAppMovie.Data
         public Movie GetMovieById(int id);
         public void CreateMovie(Movie mv);
         public void UpdateMovie(Movie mv);
-        public void DeleteMovie(int id);
+        public void DeleteMovie(Movie mv);
         public bool SaveChanges();
 
     }

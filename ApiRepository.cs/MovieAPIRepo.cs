@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WebAppMovie.Data;
 using WebAppMovie.Models;
@@ -13,12 +14,21 @@ namespace WebAppMovie.ApiRepository.cs
         }
         public void CreateMovie(Movie mv)
         {
-            throw new System.NotImplementedException();
+            if(mv == null)
+            {
+                throw new ArgumentNullException(nameof(mv));
+            }
+            _DB.Movies.Add(mv);
         }
 
-        public void DeleteMovie(int id)
+        public void DeleteMovie(Movie mv)
         {
-            throw new System.NotImplementedException();
+            if(mv == null)
+            {
+                throw new ArgumentNullException(nameof(mv));
+            }
+
+            _DB.Remove(mv);
         }
 
         public IEnumerable<Movie> GetAllMovies()
@@ -37,12 +47,12 @@ namespace WebAppMovie.ApiRepository.cs
         public void UpdateMovie(Movie mv)
         {
 
-            throw new System.NotImplementedException();
+            
         }
 
         public bool SaveChanges()
         {
-            return _DB.SaveChanges() > 0;
+            return (_DB.SaveChanges() >= 0);
         }
     }
 }

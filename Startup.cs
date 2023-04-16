@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using WebAppMovie.ApiRepository.cs;
 using WebAppMovie.Data;
 using AutoMapper;
+using Newtonsoft.Json.Serialization;
 
 namespace WebAppMovie
 {
@@ -31,6 +32,11 @@ namespace WebAppMovie
             services.AddScoped<IMovieAPIRepo, MovieAPIRepo>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new
+                CamelCasePropertyNamesContractResolver();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
