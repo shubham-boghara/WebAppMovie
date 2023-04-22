@@ -1,58 +1,63 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebAppMovie.Data;
 using WebAppMovie.Models;
 
 namespace WebAppMovie.ApiRepository.cs
 {
-    public class MovieAPIRepo : IMovieAPIRepo
+    public class MovieAPIRepo : IMovieAsyncAPIRepo
     {
         private readonly MovieDbContext _DB;
         public MovieAPIRepo(MovieDbContext DB) {
           _DB = DB;
         }
-        public void CreateMovie(Movie mv)
-        {
-            if(mv == null)
-            {
-                throw new ArgumentNullException(nameof(mv));
-            }
-            _DB.Movies.Add(mv);
-        }
 
-        public void DeleteMovie(Movie mv)
+        public void DeleteAsyncMovie(Movie mv)
         {
-            if(mv == null)
+            if (mv == null)
             {
                 throw new ArgumentNullException(nameof(mv));
             }
 
-            _DB.Remove(mv);
+             _DB.Remove(mv);
+            
         }
 
-        public IEnumerable<Movie> GetAllMovies()
-        {
-            var movies = _DB.Movies.ToList();
-            return movies;
-        }
 
-        public Movie GetMovieById(int id)
+        public async Task<Movie> GetAsyncMovieById(int id)
         {
-            var get_movie = _DB.Movies.FirstOrDefault(c => c.MovieId == id);
+            var get_movie = await _DB.Movies.FirstOrDefaultAsync(c => c.MovieId == id);
 
             return get_movie;
         }
 
-        public void UpdateMovie(Movie mv)
+        public void UpdateAsyncMovie(Movie mv)
         {
 
-            
+           
         }
 
-        public bool SaveChanges()
+        public async Task<bool>  SaveAsyncChanges()
         {
-            return (_DB.SaveChanges() >= 0);
+            return (await _DB.SaveChangesAsync() >= 0);
+        }
+
+        public async Task<IEnumerable<Movie>> GetAsyncAllMovies()
+        {
+            var movies = await _DB.Movies.ToListAsync();
+            return movies;
+        }
+
+        public async Task CreatAsyncMovie(Movie mv)
+        {
+            if (mv == null)
+            {
+                throw new ArgumentNullException(nameof(mv));
+            }
+            await _DB.Movies.AddAsync(mv);
         }
     }
 }

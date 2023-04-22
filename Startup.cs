@@ -29,7 +29,7 @@ namespace WebAppMovie
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MovieDbContext>(opt => opt.UseSqlServer(_configuration.GetConnectionString("DefaultSqlConnection")));
-            services.AddScoped<IMovieAPIRepo, MovieAPIRepo>();
+            services.AddScoped<IMovieAsyncAPIRepo, MovieAPIRepo>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers().AddNewtonsoftJson(s =>

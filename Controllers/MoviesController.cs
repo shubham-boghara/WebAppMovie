@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebAppMovie.Data;
 using WebAppMovie.Dtos;
 using WebAppMovie.Models;
@@ -13,25 +14,25 @@ namespace WebAppMovie.Controllers
     public class MoviesController : ControllerBase
     {
 
-        private readonly IMovieAPIRepo _repo;
+        private readonly IMovieAsyncAPIRepo _repo;
         private readonly IMapper _mapper;
-        public MoviesController(IMovieAPIRepo repo, IMapper mapper) {
+        public MoviesController(IMovieAsyncAPIRepo repo, IMapper mapper) {
             _repo = repo;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<MovieReadDto>> Index()
+        public async Task<ActionResult<IEnumerable<MovieReadDto>>> Index()
         {
-            var movies = _repo.GetAllMovies();
+            var movies = await _repo.GetAsyncAllMovies();
 
             return Ok(_mapper.Map<IEnumerable<MovieReadDto>>(movies));
         }
 
         [HttpGet("{id}", Name = "GetMovieById")]
-        public ActionResult<MovieReadDto> GetMovieById(int id)
+        public async Task<ActionResult<MovieReadDto>> GetMovieById(int id)
         {
-            var movie = _repo.GetMovieById(id);
+            var movie = await _repo.GetAsyncMovieById(id);
 
             if (movie == null)
             {
@@ -42,11 +43,11 @@ namespace WebAppMovie.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateMovie(MovieCreateDto movieCreateDto)
+        public async Task<ActionResult> CreateMovie(MovieCreateDto movieCreateDto)
         {
             var movie = _mapper.Map<Movie>(movieCreateDto);
-            _repo.CreateMovie(movie);
-            _repo.SaveChanges();
+            await _repo.CreatAsyncMovie(movie);
+            await _repo.SaveAsyncChanges();
 
             var movieReadDto = _mapper.Map<MovieReadDto>(movie);
 
@@ -54,26 +55,26 @@ namespace WebAppMovie.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateMovie(int id, MovieUpdateDto movieUpdateDto)
+        public async Task<ActionResult> UpdateMovie(int id, MovieUpdateDto movieUpdateDto)
         {
-            var movieModelFromRepo = _repo.GetMovieById(id);
+            var movieModelFromRepo = await _repo.GetAsyncMovieById(id);
             if (movieModelFromRepo == null)
             {
                 return NotFound();
             }
             var movie_model = _mapper.Map(movieUpdateDto, movieModelFromRepo);
 
-            _repo.UpdateMovie(movieModelFromRepo);
+            _repo.UpdateAsyncMovie(movieModelFromRepo);
 
-            _repo.SaveChanges();
+            await _repo.SaveAsyncChanges();
 
             return NoContent();
         }
 
         [HttpPatch("{id}")]
-        public ActionResult PatialUpdateMovie(int id, JsonPatchDocument<MovieUpdateDto> patchDoc)
+        public async Task<ActionResult> PatialUpdateMovie(int id, JsonPatchDocument<MovieUpdateDto> patchDoc)
         {
-            var movieModelFromRepo = _repo.GetMovieById(id);
+            var movieModelFromRepo = await _repo.GetAsyncMovieById(id);
             if (movieModelFromRepo == null)
             {
                 return NotFound();
@@ -88,24 +89,24 @@ namespace WebAppMovie.Controllers
                 return ValidationProblem(ModelState);
             }
             _mapper.Map(movieToPatch, movieModelFromRepo);
-            _repo.UpdateMovie(movieModelFromRepo);
-            _repo.SaveChanges();
+            _repo.UpdateAsyncMovie(movieModelFromRepo);
+            await _repo.SaveAsyncChanges();
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteMovie(int id)
+        public async Task<ActionResult> DeleteMovie(int id)
         {
-            var movieModelFromRepo = _repo.GetMovieById(id);
+            var movieModelFromRepo = await _repo.GetAsyncMovieById(id);
             if(movieModelFromRepo == null)
             {
                 return NotFound();
             }
 
-            _repo.DeleteMovie(movieModelFromRepo);
+             _repo.DeleteAsyncMovie(movieModelFromRepo);
 
-            _repo.SaveChanges();
+            await _repo.SaveAsyncChanges();
 
             return NoContent();
         }
