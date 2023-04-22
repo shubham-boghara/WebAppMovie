@@ -11,8 +11,8 @@ namespace WebAppMovie.ApiRepository.cs
     public class MovieAPIRepo : IMovieAsyncAPIRepo
     {
         private readonly MovieDbContext _DB;
-        public MovieAPIRepo(MovieDbContext DB) {
-          _DB = DB;
+        public MovieAPIRepo(MovieDbContext db) {
+          _DB = db;
         }
 
         public void DeleteAsyncMovie(Movie mv)

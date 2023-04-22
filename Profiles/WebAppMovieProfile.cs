@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using WebAppMovie.Dtos;
+using WebAppMovie.Dtos.Movie;
 using WebAppMovie.Models;
 
 namespace WebAppMovie.Profiles

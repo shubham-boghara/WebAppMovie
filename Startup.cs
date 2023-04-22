@@ -30,6 +30,7 @@ namespace WebAppMovie
         {
             services.AddDbContext<MovieDbContext>(opt => opt.UseSqlServer(_configuration.GetConnectionString("DefaultSqlConnection")));
             services.AddScoped<IMovieAsyncAPIRepo, MovieAPIRepo>();
+            services.AddScoped<IUserAsyncAPIRepo, UserAPIRepo>();
 
             //services.AddSwaggerDocument();
             services.AddSwaggerGen();

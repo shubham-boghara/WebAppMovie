@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAppMovie.Data;
-using WebAppMovie.Dtos;
+using WebAppMovie.Dtos.Movie;
 using WebAppMovie.Models;
 
 namespace WebAppMovie.Controllers

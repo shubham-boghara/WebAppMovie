@@ -1,4 +1,4 @@
-﻿namespace WebAppMovie.Dtos
+﻿namespace WebAppMovie.Dtos.Movie
 {
     public class MovieReadDto
     {
