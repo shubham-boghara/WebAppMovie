@@ -30,6 +30,9 @@ namespace WebAppMovie
         {
             services.AddDbContext<MovieDbContext>(opt => opt.UseSqlServer(_configuration.GetConnectionString("DefaultSqlConnection")));
             services.AddScoped<IMovieAsyncAPIRepo, MovieAPIRepo>();
+
+            //services.AddSwaggerDocument();
+            services.AddSwaggerGen();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers().AddNewtonsoftJson(s =>
@@ -37,6 +40,8 @@ namespace WebAppMovie
                 s.SerializerSettings.ContractResolver = new
                 CamelCasePropertyNamesContractResolver();
             });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +51,14 @@ namespace WebAppMovie
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //app.UseOpenApi();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json","Movie API V1");
+                
+            });
 
             app.UseRouting();
             

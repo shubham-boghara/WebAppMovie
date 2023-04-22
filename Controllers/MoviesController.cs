@@ -10,7 +10,7 @@ using WebAppMovie.Models;
 namespace WebAppMovie.Controllers
 {
     [ApiController]
-    [Route("api/{controller}")]
+    [Route("api/[controller]")]
     public class MoviesController : ControllerBase
     {
 
