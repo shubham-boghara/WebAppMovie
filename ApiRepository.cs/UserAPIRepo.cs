@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAppMovie.Data;
 using WebAppMovie.Models;
@@ -12,34 +14,48 @@ namespace WebAppMovie.ApiRepository.cs
         {
             _DB = dB;
         }
-        public Task CreatAsyncUser(Movie mv)
+        public async Task CreatAsyncUser(User user)
         {
-            throw new System.NotImplementedException();
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            await _DB.AddAsync(user);
+
         }
 
-        public void DeleteAsyncUser(Movie mv)
+        public void DeleteAsyncUser(User user)
         {
-            throw new System.NotImplementedException();
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            _DB.Remove(user);
         }
 
-        public Task<IEnumerable<Movie>> GetAsyncAllUsers()
+        public async Task<IEnumerable<User>> GetAsyncAllUsers()
         {
-            throw new System.NotImplementedException();
+            return await _DB.Users.ToListAsync();
         }
 
-        public Task<Movie> GetAsyncUserById(int id)
+        public async Task<User> GetAsyncUserById(int id)
         {
-            throw new System.NotImplementedException();
+            return await _DB.Users.SingleOrDefaultAsync(x => x.UserId == id);
         }
 
-        public Task<bool> SaveAsyncChanges()
+        public async Task<bool> SaveAsyncChanges()
         {
-            throw new System.NotImplementedException();
+            return (await _DB.SaveChangesAsync() >= 0);
         }
 
-        public void UpdateAsyncUser(Movie mv)
+        public void UpdateAsyncUser(User user)
         {
-            throw new System.NotImplementedException();
+           
+        }
+
+        public async Task<User> GetUserByEmailAndPassword(string email, string password)
+        {
+            return await (_DB.Users.SingleOrDefaultAsync(x => x.Email == email && x.Password == password));
         }
     }
 }

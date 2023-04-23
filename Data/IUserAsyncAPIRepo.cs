@@ -6,11 +6,12 @@ namespace WebAppMovie.Data
 {
     public interface IUserAsyncAPIRepo
     {
-        Task<IEnumerable<Movie>> GetAsyncAllUsers();
-        Task<Movie> GetAsyncUserById(int id);
-        Task CreatAsyncUser(Movie mv);
-        void UpdateAsyncUser(Movie mv);
-        void DeleteAsyncUser(Movie mv);
+        Task<IEnumerable<User>> GetAsyncAllUsers();
+        Task<User> GetAsyncUserById(int id);
+        Task CreatAsyncUser(User user);
+        void UpdateAsyncUser(User user);
+        void DeleteAsyncUser(User user);
         Task<bool> SaveAsyncChanges();
+        Task<User> GetUserByEmailAndPassword(string email, string password);
     }
 }

@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAppMovie.Data;
 using WebAppMovie.Dtos.Movie;
+using WebAppMovie.Filters;
 using WebAppMovie.Models;
 
 namespace WebAppMovie.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    // [APIKeyAuthFilter]
+    [CustomTokenAuthFilter]
     public class MoviesController : ControllerBase
     {
 

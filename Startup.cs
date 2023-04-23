@@ -13,6 +13,7 @@ using WebAppMovie.ApiRepository.cs;
 using WebAppMovie.Data;
 using AutoMapper;
 using Newtonsoft.Json.Serialization;
+using WebAppMovie.Auth;
 
 namespace WebAppMovie
 {
@@ -28,9 +29,16 @@ namespace WebAppMovie
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //Database service
             services.AddDbContext<MovieDbContext>(opt => opt.UseSqlServer(_configuration.GetConnectionString("DefaultSqlConnection")));
+           
+            //Repositroy services
             services.AddScoped<IMovieAsyncAPIRepo, MovieAPIRepo>();
             services.AddScoped<IUserAsyncAPIRepo, UserAPIRepo>();
+
+            //Auth repository services
+            services.AddSingleton<ICustomTokenManager, JwtTokenManager>();
+            services.AddSingleton<ICustomUserManager, CustomUserManager>();
 
             //services.AddSwaggerDocument();
             services.AddSwaggerGen();
