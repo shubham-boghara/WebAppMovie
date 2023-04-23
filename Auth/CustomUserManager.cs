@@ -22,7 +22,7 @@ namespace WebAppMovie.Auth
             /* if (credentials[userName] != password){
                  return string.Empty;    
              }*/
-            if(userName == null || id == 0) {
+            if(string.IsNullOrWhiteSpace(userName) || id == 0) {
                 return string.Empty;
             }
 
@@ -30,7 +30,6 @@ namespace WebAppMovie.Auth
             playLoad.UserName = userName;
             playLoad.UserId = id;
             //generate token;
-
             return customTokenManager.CreateToken(playLoad);
         }
 
