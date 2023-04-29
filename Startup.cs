@@ -14,6 +14,7 @@ using WebAppMovie.Data;
 using AutoMapper;
 using Newtonsoft.Json.Serialization;
 using WebAppMovie.Auth;
+using WebAppMovie.ApiResponse;
 
 namespace WebAppMovie
 {
@@ -39,6 +40,9 @@ namespace WebAppMovie
             //Auth repository services
             services.AddSingleton<ICustomTokenManager, JwtTokenManager>();
             services.AddSingleton<ICustomUserManager, CustomUserManager>();
+
+            //Responce repo
+            services.AddScoped<IAppResponse, AppResponse>();
 
             //services.AddSwaggerDocument();
             services.AddSwaggerGen();

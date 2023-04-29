@@ -27,7 +27,8 @@ namespace WebAppMovie.Auth
                 {
                          new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                          new Claim(JwtRegisteredClaimNames.Name,playLoad.UserName),
-                         new Claim(JwtRegisteredClaimNames.NameId,playLoad.UserId.ToString())
+                         new Claim(JwtRegisteredClaimNames.NameId,playLoad.UserId.ToString()),
+                         new Claim(JwtRegisteredClaimNames.Email,playLoad.Email)
                 };
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
@@ -55,11 +56,13 @@ namespace WebAppMovie.Auth
 
             var jwtToken = tokenHandler.ReadToken(token.Replace("\"",string.Empty)) as JwtSecurityToken;
 
-            var claim = jwtToken.Claims.FirstOrDefault(x => x.Type == "unique_name");
+            var claim = jwtToken.Claims.FirstOrDefault(x => x.Type == "name");
             var claimId = jwtToken.Claims.FirstOrDefault(x => x.Type == "nameid");
+            var claimEmail = jwtToken.Claims.FirstOrDefault(x => x.Type == "email");
             var playLoad = new PlayLoad();
             playLoad.UserName = claim.Value;
             playLoad.UserId = Convert.ToInt32(claimId.Value);
+            playLoad.Email = claimEmail.Value;
             if(claim != null) return playLoad;
 
             return null;

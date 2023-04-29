@@ -29,6 +29,7 @@ namespace WebAppMovie.Auth
             var playLoad = new PlayLoad();
             playLoad.UserName = userName;
             playLoad.UserId = id;
+            playLoad.Email = email;
             //generate token;
             return customTokenManager.CreateToken(playLoad);
         }
