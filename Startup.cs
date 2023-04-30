@@ -41,8 +41,11 @@ namespace WebAppMovie
             services.AddSingleton<ICustomTokenManager, JwtTokenManager>();
             services.AddSingleton<ICustomUserManager, CustomUserManager>();
 
-            //Responce repo
+            //Responce repository services
             services.AddScoped<IAppResponse, AppResponse>();
+
+            //Email repository services
+            services.AddScoped<ICustomEmailManager, CustomEmailManager>();
 
             //services.AddSwaggerDocument();
             services.AddSwaggerGen();
